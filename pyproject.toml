@@ -15,6 +15,11 @@ dependencies = [
     "starlette>=0.46.2",
     "typing-extensions>=4.13.2",
     "uvicorn>=0.34.0",
+    "litellm",
+    "ollama",
+    "openai",
+    "yfinance",
+    "dotenv"
 ]
 
 [tool.hatch.build.targets.wheel]

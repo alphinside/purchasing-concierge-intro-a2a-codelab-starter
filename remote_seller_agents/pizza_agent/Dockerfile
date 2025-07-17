@@ -28,4 +28,4 @@ EXPOSE 8080
 
 ENV PYTHONUNBUFFERED=1
 
-ENTRYPOINT ["uv", "run", ".", "--host", "0.0.0.0", "--port", "8080"]
+ENTRYPOINT ["uv", "run", ".", "--host", "0.0.0.0", "--port", "10000"]

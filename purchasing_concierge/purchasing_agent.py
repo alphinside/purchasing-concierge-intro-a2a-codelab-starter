@@ -19,6 +19,12 @@ import uuid
 from typing import List
 import httpx
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+# Custom by Shailen
+from google.adk.models.lite_llm import LiteLlm 
 
 from google.adk import Agent
 from google.adk.agents.readonly_context import ReadonlyContext
@@ -72,7 +78,7 @@ class PurchasingAgent:
 
     def create_agent(self) -> Agent:
         return Agent(
-            model="gemini-2.0-flash-001",
+            model=LiteLlm(model=os.getenv("OLLAMA_MODEL")), #"gemini-2.0-flash-001",
             name="purchasing_agent",
             instruction=self.root_instruction,
             before_model_callback=self.before_model_callback,

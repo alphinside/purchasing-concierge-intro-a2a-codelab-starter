@@ -25,8 +25,10 @@ import os
 
 load_dotenv()
 
-litellm.vertex_project = os.getenv("GCLOUD_PROJECT_ID")
-litellm.vertex_location = os.getenv("GCLOUD_LOCATION")
+from langchain_ollama import ChatOllama
+
+# litellm.vertex_project = os.getenv("GCLOUD_PROJECT_ID")
+# litellm.vertex_location = os.getenv("GCLOUD_LOCATION")
 
 
 class ResponseFormat(BaseModel):
@@ -106,9 +108,11 @@ Provided below is the available burger menu and it's related price:
     SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
 
     def invoke(self, query, sessionId) -> str:
-        model = LLM(
-            model="vertex_ai/gemini-2.0-flash",  # Use base model name without provider prefix
-        )
+        # model = LLM(
+        #     model=os.getenv("OLLAMA_MODEL"),
+        #     base_url=os.getenv("OLLAMA_BASE_URL")  # Use base model name without provider prefix
+        # )
+        model = ChatOllama(model="ollama/llama3.1")
         burger_agent = Agent(
             role="Burger Seller Agent",
             goal=(

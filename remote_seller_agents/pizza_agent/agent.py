@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from langchain_google_vertexai import ChatVertexAI
+# from langchain_google_vertexai import ChatVertexAI
+from langchain_ollama import ChatOllama
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
@@ -104,11 +105,17 @@ Provided below is the available pizza menu and it's related price:
     SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
 
     def __init__(self):
-        self.model = ChatVertexAI(
-            model="gemini-2.0-flash",
-            location=os.getenv("GCLOUD_LOCATION"),
-            project=os.getenv("GCLOUD_PROJECT_ID"),
+        # self.model = ChatVertexAI(
+        #     model="gemini-2.0-flash",
+        #     location=os.getenv("GCLOUD_LOCATION"),
+        #     project=os.getenv("GCLOUD_PROJECT_ID"),
+        # )
+
+        self.model = ChatOllama(
+            # model=os.getenv("OLLAMA_MODEL")
+            model="llama3.1:latest" 
         )
+
         self.tools = [create_pizza_order]
         self.graph = create_react_agent(
             self.model,
