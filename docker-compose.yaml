@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  vllm:
+    image: rocm/vllm:latest
+    container_name: vllm_latest
+    # When using host network mode, the container shares the host's networking stack.
+    # The 'ports' mapping is ignored but shown here for reference.
+    network_mode: "host"
+    # ports:
+    #   - "8088:8088"
+    
+    # Environment variables
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      
+    # Volumes
+    volumes:
+      - /home/shailens/:/work
+      
+    # Hardware and security settings
+    ipc: "host"
+    privileged: true
+    stdin_open: true # Equivalent to -i
+    tty: true        # Equivalent to -t
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_ADMIN
+      - SYS_PTRACE
+    group_add:
+      - render
+    devices:
+      - /dev/kfd
+      - /dev/dri
+      - /dev/mem
+
+
+  purchasing_concierge:
+    # Tells Docker Compose to build the image from the Dockerfile
+    # in the current directory ('.'). //may need to adapt this
+    build: .
+    
+    # Maps port 8080 on the host to port 8080 in the container.
+    ports:
+      - "8080:8080"
+      
+    # Sets the environment variable, same as the ENV instruction.
+    environment:
+      - PYTHONUNBUFFERED=1
+
