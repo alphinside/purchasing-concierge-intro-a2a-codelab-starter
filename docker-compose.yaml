@@ -4,11 +4,10 @@ services:
   vllm:
     image: rocm/vllm:latest
     container_name: vllm_latest
-    # When using host network mode, the container shares the host's networking stack.
-    # The 'ports' mapping is ignored but shown here for reference.
-    network_mode: "host"
-    # ports:
-    #   - "8088:8088"
+    # REMOVED: network_mode: "host" to allow communication with other services.
+    # The ports mapping is now active.
+    ports:
+      - "8088:8088"
     
     # Environment variables
     environment:
@@ -21,8 +20,8 @@ services:
     # Hardware and security settings
     ipc: "host"
     privileged: true
-    stdin_open: true # Equivalent to -i
-    tty: true        # Equivalent to -t
+    stdin_open: true 
+    tty: true      
     security_opt:
       - seccomp:unconfined
     cap_add:
@@ -34,18 +33,41 @@ services:
       - /dev/kfd
       - /dev/dri
       - /dev/mem
-
+    command: >
+      vllm serve meta-llama/Llama-3.1-8B-Instruct
+      --enable-auto-tool-choice
+      --tool-call-parser llama3_json
+      --port 8088
+      --chat-template /work/projects/vllm_setup/vllm/examples/tool_chat_template_llama3.1_json.jinja
 
   purchasing_concierge:
-    # Tells Docker Compose to build the image from the Dockerfile
-    # in the current directory ('.'). //may need to adapt this
+    # This path assumes the Dockerfile is in a folder named 'purchasing_concierge'
+    # in the root directory. Adapt if needed.
     build: .
-    
-    # Maps port 8080 on the host to port 8080 in the container.
     ports:
       - "8080:8080"
-      
-    # Sets the environment variable, same as the ENV instruction.
     environment:
       - PYTHONUNBUFFERED=1
+    # ADDED: This ensures the other services are started before this one.
+    depends_on:
+      - vllm
+      - burger_agent
+      - pizza_agent
 
+  burger_agent:
+    build: ./remote_seller_agents/burger_agent
+    ports:
+      - "10000:10000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./remote_seller_agents/burger_agent:/app
+
+  pizza_agent:
+    build: ./remote_seller_agents/pizza_agent
+    ports:
+      - "10001:10001"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./remote_seller_agents/pizza_agent:/app

@@ -111,11 +111,6 @@ Provided below is the available burger menu and it's related price:
     SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
 
     def invoke(self, query, sessionId) -> str:
-        # model = LLM(
-        #     model=os.getenv("OLLAMA_MODEL"),
-        #     base_url=os.getenv("OLLAMA_BASE_URL")  # Use base model name without provider prefix
-        # )
-        
         burger_agent = Agent(
             role="Burger Seller Agent",
             goal=(
@@ -125,7 +120,6 @@ Provided below is the available burger menu and it's related price:
             verbose=False,
             allow_delegation=False,
             tools=[create_burger_order],
-            # llm=model,
             llm=LLM(
                 model=os.getenv("VLLM_MODEL"), #VLLM_MODEL
                 api_base=os.getenv("OPENAI_API_BASE") # OPENAI_API_BASE
