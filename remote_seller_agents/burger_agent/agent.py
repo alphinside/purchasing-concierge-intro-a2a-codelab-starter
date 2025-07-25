@@ -25,11 +25,6 @@ import os
 
 load_dotenv()
 
-# Edits from Shailen
-from langchain_ollama import ChatOllama
-litellm._turn_on_debug()
-# from crewai.ll
-
 # litellm.vertex_project = os.getenv("GCLOUD_PROJECT_ID")
 # litellm.vertex_location = os.getenv("GCLOUD_LOCATION")
 
