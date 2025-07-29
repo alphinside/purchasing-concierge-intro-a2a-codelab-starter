@@ -30,7 +30,7 @@ from google.adk import Agent
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.tools.tool_context import ToolContext
-from .remote_agent_connection import RemoteAgentConnections, TaskUpdateCallback
+from remote_agent_connection import RemoteAgentConnections, TaskUpdateCallback
 from a2a_client.card_resolver import A2ACardResolver
 from a2a_types import (
     AgentCard,
