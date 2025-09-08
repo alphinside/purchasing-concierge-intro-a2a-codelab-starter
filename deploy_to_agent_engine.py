@@ -42,7 +42,7 @@ remote_app = agent_engines.create(
     display_name="purchasing-concierge",
     requirements=[
         "google-cloud-aiplatform[adk,agent_engines]",
-        "a2a-sdk==0.2.16",
+        "a2a-sdk>=0.3.4",
     ],
     extra_packages=[
         "./purchasing_concierge",
