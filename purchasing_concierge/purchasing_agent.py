@@ -14,24 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import json
-import uuid
-from typing import List
-import httpx
-
 from google.adk import Agent
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.tools.tool_context import ToolContext
 
-from a2a.client import A2ACardResolver
 from a2a.types import (
     AgentCard,
-    MessageSendParams,
     Part,
-    SendMessageRequest,
-    SendMessageResponse,
-    SendMessageSuccessResponse,
-    Task,
 )
 from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
 from dotenv import load_dotenv
@@ -41,17 +30,13 @@ load_dotenv()
 pizza_agent = RemoteA2aAgent(
     name="pizza_agent",
     description="Agent that handles request related to pizza menu and order",
-    agent_card=(
-        f"{os.environ["PIZZA_SELLER_AGENT_URL"]}/.well-known/agent-card.json"
-    ),
+    agent_card=(f"{os.environ['PIZZA_SELLER_AGENT_URL']}/.well-known/agent-card.json"),
 )
 
 burger_agent = RemoteA2aAgent(
     name="burger_agent",
     description="Agent that handles request related to burger menu and order",
-    agent_card=(
-        f"{os.environ["BURGER_SELLER_AGENT_URL"]}/.well-known/agent-card.json"
-    ),
+    agent_card=(f"{os.environ['BURGER_SELLER_AGENT_URL']}/.well-known/agent-card.json"),
 )
 
 
@@ -64,10 +49,7 @@ class PurchasingAgent:
 
     def __init__(
         self,
-        remote_agent_addresses: List[str],
     ):
-        self.remote_agent_connections: dict[str, RemoteAgentConnections] = {}
-        self.remote_agent_addresses = remote_agent_addresses
         self.cards: dict[str, AgentCard] = {}
         self.a2a_client_init_status = False
 
@@ -81,11 +63,10 @@ class PurchasingAgent:
                 "This purchasing agent orchestrates the decomposition of the user purchase request into"
                 " tasks that can be performed by the seller agents."
             ),
-            
         )
 
     def root_instruction(self, context: ReadonlyContext) -> str:
-        return f"""You are an expert purchasing delegator that can delegate the user product inquiry and purchase request to the
+        return """You are an expert purchasing delegator that can delegate the user product inquiry and purchase request to the
 appropriate seller agents.
 
 Execution:
@@ -104,6 +85,7 @@ Execution:
 
 Please rely on tools to address the request, and don't make up the response. If you are not sure, please ask the user for more details.
 """
+
 
 def convert_parts(parts: list[Part], tool_context: ToolContext):
     rval = []
