@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "a2a-sdk>=0.2.16",
-    "google-adk>=1.8.0",
+    "google-adk==1.15.1",
     "gradio>=5.38.2",
 ]
 
