@@ -104,6 +104,9 @@ class RemoteAgentConnections:
         self._httpx_client = httpx.AsyncClient(timeout=30)
         self.agent_client = A2AClient(self._httpx_client, agent_card, url=agent_url)
 
+        # Set the URL attribute for the custom _send_request method avoiding url attribute error in line 52
+        self.agent_client.url = agent_url
+
         # Replace the original method with our custom implementation
         # NOTE: This is a temporary workaround for issue in httpx event closed
         self.agent_client._send_request = _send_request.__get__(self.agent_client)
