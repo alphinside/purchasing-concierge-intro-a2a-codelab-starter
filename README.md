@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/alphinside-purchasing-concierge-intro-a2a-codelab-starter-badge.png)](https://mseep.ai/app/alphinside-purchasing-concierge-intro-a2a-codelab-starter)
+
 # Purchasing Concierge A2A Demo
 
 > **⚠️ DISCLAIMER: THIS IS NOT AN OFFICIALLY SUPPORTED GOOGLE PRODUCT. THIS PROJECT IS INTENDED FOR DEMONSTRATION PURPOSES ONLY. IT IS NOT INTENDED FOR USE IN A PRODUCTION ENVIRONMENT.**
